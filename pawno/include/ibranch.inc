@@ -24,10 +24,9 @@ forward OnPlayerFreezeStateChange(playerid, newstate, oldstate);
 forward OnPlayerTeamChange(playerid, newteam, oldteam);
 forward OnPlayerGenderChange(playerid, newgender, oldgender);
 
-stock strcpy(dest[], const source[], maxlength=sizeof dest)
-{
-	strcat((dest[0] = EOS, dest), source, maxlength);
-}
+#if !defined strcpy
+	#define strcpy(%0,%1) strcat((%0[0] = '\0', %0), %1)
+#endif
 
 #if !defined isnull
     #define isnull(%1) ((!(%1[0])) || (((%1[0]) == '\1') && (!(%1[1]))))
@@ -42,7 +41,7 @@ enum UpdateData
 {
 	iB_Skin,
 	iB_Gender,
-	iB_Name[24],
+	iB_Name[MAX_PLAYER_NAME],
 	iB_Money,
 	iB_WantedLevel,
 	iB_Score,
@@ -125,7 +124,7 @@ public iBranch_OnPlayerUpdate(playerid)
 {
 	if(!IsPlayerConnected(playerid)) return CleanPlayerUpdateInfo(playerid);
 	new upd_skin = GetPlayerSkin(playerid),
-	upd_name[24],
+	upd_name[MAX_PLAYER_NAME],
 	upd_money = GetPlayerMoney(playerid),
 	upd_wantedlevel = GetPlayerWantedLevel(playerid),
 	upd_score = GetPlayerScore(playerid),
@@ -144,7 +143,7 @@ public iBranch_OnPlayerUpdate(playerid)
 	for(new i; i < 13; i++)	GetPlayerWeaponData(playerid, i, upd_weapon[i], upd_ammo[i]);
 	GetPlayerHealth(playerid, upd_health);
 	GetPlayerArmour(playerid, upd_armour);
-	GetPlayerName(playerid, upd_name, 24);	
+	GetPlayerName(playerid, upd_name, sizeof(upd_name));	
 	
 	if(upd_skin != PlayerUpdateInfo[playerid][iB_Skin])
 	{
@@ -295,4 +294,3 @@ stock iB_GetSkinGender(skinid)
     #define _ALS_TogglePlayerControllable
 #endif
 #define TogglePlayerControllable iB_TogglePlayerControllable
-
