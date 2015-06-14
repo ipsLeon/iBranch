@@ -293,4 +293,8 @@ stock iB_GetSkinGender(skinid)
 #else
     #define _ALS_TogglePlayerControllable
 #endif
+<<<<<<< HEAD
 #define TogglePlayerControllable iB_TogglePlayerControllable
+=======
+#define TogglePlayerControllable iB_TogglePlayerControllable
+>>>>>>> origin/master
