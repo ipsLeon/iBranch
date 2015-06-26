@@ -328,7 +328,7 @@ GetPlayerFPS(playerid)
 	return 0;
 }
 
-stock iB_TogglePlayerControllable(playerid, bool:toggle)
+stock iB_TogglePlayerControllable(playerid, toggle)
 {
     CallRemoteFunction("OnPlayerFreezeStateChange", "iii", playerid, toggle, PlayerUpdateInfo[playerid][iB_Freezed]); 
     TogglePlayerControllable(playerid, toggle);
