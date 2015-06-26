@@ -208,99 +208,99 @@ public iBranch_OnPlayerUpdate(playerid)
 	{
 		if(iB_GetSkinGender(upd_skin) != PlayerUpdateInfo[playerid][iB_Gender])
 		{
-			CallRemoteFunction("OnPlayerGenderChange", "iii", playerid, iB_GetSkinGender(upd_skin), iB_GetSkinGender(PlayerUpdateInfo[playerid][iB_Skin]));
+			CallLocalFunction("OnPlayerGenderChange", "iii", playerid, iB_GetSkinGender(upd_skin), iB_GetSkinGender(PlayerUpdateInfo[playerid][iB_Skin]));
 			PlayerUpdateInfo[playerid][iB_Gender] = iB_GetSkinGender(upd_skin);
 		}
-		CallRemoteFunction("OnPlayerSkinChange", "iii", playerid, upd_skin, PlayerUpdateInfo[playerid][iB_Skin]);
+		CallLocalFunction("OnPlayerSkinChange", "iii", playerid, upd_skin, PlayerUpdateInfo[playerid][iB_Skin]);
 		PlayerUpdateInfo[playerid][iB_Skin] = upd_skin;
 	}
 	if(strcmp(upd_name, PlayerUpdateInfo[playerid][iB_Name]))
 	{
-		if(!isnull(upd_name) && !isnull(PlayerUpdateInfo[playerid][iB_Name])) CallRemoteFunction("OnPlayerNameChange", "iss", playerid, upd_name, PlayerUpdateInfo[playerid][iB_Name]);
+		if(!isnull(upd_name) && !isnull(PlayerUpdateInfo[playerid][iB_Name])) CallLocalFunction("OnPlayerNameChange", "iss", playerid, upd_name, PlayerUpdateInfo[playerid][iB_Name]);
 		strcpy(PlayerUpdateInfo[playerid][iB_Name], upd_name);
 	}
 	if(upd_money != PlayerUpdateInfo[playerid][iB_Money])
 	{
-		CallRemoteFunction("OnPlayerMoneyChange", "iiii", playerid, upd_money, PlayerUpdateInfo[playerid][iB_Money]);
+		CallLocalFunction("OnPlayerMoneyChange", "iiii", playerid, upd_money, PlayerUpdateInfo[playerid][iB_Money]);
 		PlayerUpdateInfo[playerid][iB_Money] = upd_money;
 	}
 	if(upd_wantedlevel != PlayerUpdateInfo[playerid][iB_WantedLevel])
 	{
-		CallRemoteFunction("OnPlayerWantedLevelChange", "iii", playerid, upd_wantedlevel, PlayerUpdateInfo[playerid][iB_WantedLevel]);
+		CallLocalFunction("OnPlayerWantedLevelChange", "iii", playerid, upd_wantedlevel, PlayerUpdateInfo[playerid][iB_WantedLevel]);
 		PlayerUpdateInfo[playerid][iB_WantedLevel] = upd_wantedlevel;
 	}
 	if(upd_score != PlayerUpdateInfo[playerid][iB_Score])
 	{
-		CallRemoteFunction("OnPlayerScoreChange", "idd", playerid, upd_score, PlayerUpdateInfo[playerid][iB_Score]);
+		CallLocalFunction("OnPlayerScoreChange", "idd", playerid, upd_score, PlayerUpdateInfo[playerid][iB_Score]);
 		PlayerUpdateInfo[playerid][iB_Score] = upd_score;
 	}
 	for(new s; s < 13; s++)
 	{
 		if(upd_weapon[s] != PlayerUpdateInfo[playerid][iB_Weapon][s])
 		{
-			CallRemoteFunction("OnPlayerWeaponSlotChange", "iiii", playerid, s, upd_weapon[s], PlayerUpdateInfo[playerid][iB_Weapon][s]);
+			CallLocalFunction("OnPlayerWeaponSlotChange", "iiii", playerid, s, upd_weapon[s], PlayerUpdateInfo[playerid][iB_Weapon][s]);
 			PlayerUpdateInfo[playerid][iB_Weapon][s] = upd_weapon[s];
 		}
 		if(upd_ammo[s] != PlayerUpdateInfo[playerid][iB_Ammo][s])
 		{
-			CallRemoteFunction("OnPlayerAmmoChange", "iiii", playerid, upd_weapon[s], upd_ammo[s], PlayerUpdateInfo[playerid][iB_Ammo][s]);
+			CallLocalFunction("OnPlayerAmmoChange", "iiii", playerid, upd_weapon[s], upd_ammo[s], PlayerUpdateInfo[playerid][iB_Ammo][s]);
 			PlayerUpdateInfo[playerid][iB_Ammo][s] = upd_ammo[s];
 		}
 	}
 	if(upd_currentweapon != PlayerUpdateInfo[playerid][iB_CurrentWeapon])
 	{
-		CallRemoteFunction("OnPlayerCurrentWeaponChange", "iii", playerid, upd_currentweapon, PlayerUpdateInfo[playerid][iB_CurrentWeapon]);
+		CallLocalFunction("OnPlayerCurrentWeaponChange", "iii", playerid, upd_currentweapon, PlayerUpdateInfo[playerid][iB_CurrentWeapon]);
 		PlayerUpdateInfo[playerid][iB_CurrentWeapon] = upd_currentweapon;
 	}
 	if(upd_vehicle != PlayerUpdateInfo[playerid][iB_Vehicle])
 	{
 		if(upd_vehicle != 128)
 		{
-			CallRemoteFunction("OnPlayerVehicleChange", "iii", playerid, upd_vehicle, PlayerUpdateInfo[playerid][iB_Vehicle]);
+			CallLocalFunction("OnPlayerVehicleChange", "iii", playerid, upd_vehicle, PlayerUpdateInfo[playerid][iB_Vehicle]);
 			PlayerUpdateInfo[playerid][iB_Vehicle] =  upd_vehicle;
 		}
 	}
 	if(upd_seat != PlayerUpdateInfo[playerid][iB_Seat])
 	{
-		CallRemoteFunction("OnPlayerVehicleSeatChange", "iii", playerid, upd_seat, PlayerUpdateInfo[playerid][iB_Seat]);
+		CallLocalFunction("OnPlayerVehicleSeatChange", "iii", playerid, upd_seat, PlayerUpdateInfo[playerid][iB_Seat]);
 		PlayerUpdateInfo[playerid][iB_Seat] = upd_seat;
 	}
 	if(upd_health != PlayerUpdateInfo[playerid][iB_Health])
 	{
-		CallRemoteFunction("OnPlayerHealthChange", "iff", playerid, upd_health, PlayerUpdateInfo[playerid][iB_Health]);
+		CallLocalFunction("OnPlayerHealthChange", "iff", playerid, upd_health, PlayerUpdateInfo[playerid][iB_Health]);
 		PlayerUpdateInfo[playerid][iB_Health] = upd_health;
 	}
 	if(upd_armour != PlayerUpdateInfo[playerid][iB_Armour])
 	{
-		CallRemoteFunction("OnPlayerArmourChange", "iff", playerid, upd_armour, PlayerUpdateInfo[playerid][iB_Armour]);
+		CallLocalFunction("OnPlayerArmourChange", "iff", playerid, upd_armour, PlayerUpdateInfo[playerid][iB_Armour]);
 		PlayerUpdateInfo[playerid][iB_Armour] = upd_armour;
 	}
 	if(upd_world != PlayerUpdateInfo[playerid][iB_World])
 	{
-		CallRemoteFunction("OnPlayerVirtualWorldChange", "iii", playerid, upd_world, PlayerUpdateInfo[playerid][iB_World]);
+		CallLocalFunction("OnPlayerVirtualWorldChange", "iii", playerid, upd_world, PlayerUpdateInfo[playerid][iB_World]);
 		PlayerUpdateInfo[playerid][iB_World] = upd_world;
 	}
 	if(upd_ping != PlayerUpdateInfo[playerid][iB_Ping])
 	{
-		CallRemoteFunction("OnPlayerPingChange", "iii", playerid, upd_ping, PlayerUpdateInfo[playerid][iB_Ping]);
+		CallLocalFunction("OnPlayerPingChange", "iii", playerid, upd_ping, PlayerUpdateInfo[playerid][iB_Ping]);
 		PlayerUpdateInfo[playerid][iB_Ping] = upd_ping;
 	}
 	if(upd_fps != PlayerUpdateInfo[playerid][iB_FPS])
 	{
-		CallRemoteFunction("OnPlayerFPSChange", "iii", playerid, upd_fps, PlayerUpdateInfo[playerid][iB_FPS]);
+		CallLocalFunction("OnPlayerFPSChange", "iii", playerid, upd_fps, PlayerUpdateInfo[playerid][iB_FPS]);
 		PlayerUpdateInfo[playerid][iB_FPS] = upd_fps;
 	}
 	if(upd_drunklevel != PlayerUpdateInfo[playerid][iB_DrunkLevel])
 	{
 		if(upd_drunklevel != 2000)//ignore FPS updater
 		{		
-			CallRemoteFunction("OnPlayerDrunkLevelChange", "iii", playerid, upd_drunklevel, PlayerUpdateInfo[playerid][iB_DrunkLevel]);
+			CallLocalFunction("OnPlayerDrunkLevelChange", "iii", playerid, upd_drunklevel, PlayerUpdateInfo[playerid][iB_DrunkLevel]);
 			PlayerUpdateInfo[playerid][iB_DrunkLevel] = upd_drunklevel;
 		}
 	}
 	if(upd_team != PlayerUpdateInfo[playerid][iB_Team])
 	{
-		CallRemoteFunction("OnPlayerTeamChange", "iii", playerid, upd_team, PlayerUpdateInfo[playerid][iB_Team]);
+		CallLocalFunction("OnPlayerTeamChange", "iii", playerid, upd_team, PlayerUpdateInfo[playerid][iB_Team]);
 		PlayerUpdateInfo[playerid][iB_Team] = upd_team;
 	}
 	return 1;
