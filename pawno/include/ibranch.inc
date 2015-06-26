@@ -157,7 +157,7 @@ public OnPlayerKeyStateChange(playerid, newkeys, oldkeys)
 		{
 			case 22..34, 38:
 			{	
-				OnPlayerAimStateChange(playerid, weapon, AIM_MODE_HOLD);			
+				CallRemoteFunction("OnPlayerAimStateChange", playerid, weapon, AIM_MODE_HOLD);			
 				PlayerUpdateInfo[playerid][iB_IsAiming] = true;
 				return 1;
 			}
