@@ -146,7 +146,7 @@ public OnPlayerKeyStateChange(playerid, newkeys, oldkeys)
 	if(RELEASED(KEY_AIM) && PlayerUpdateInfo[playerid][iB_IsAiming])
 	{
 		#if defined OnPlayerAimStateChange
-			OnPlayerAimStateChange(playerid, weapon, AIM_MODE_RELEASE);
+			CallRemoteFunction("OnPlayerAimStateChange", "iii", playerid, weapon, AIM_MODE_RELEASE);
 		#endif
 		PlayerUpdateInfo[playerid][iB_IsAiming] = false;
 		return 1;
