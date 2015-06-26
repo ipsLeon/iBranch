@@ -4,6 +4,8 @@
 ** Thanks to Y_Less for ALS Hook method 7
 */
 
+#include <a_samp>
+
 forward OnPlayerSkinChange(playerid, newskin, oldskin);
 forward OnPlayerNameChange(playerid, newname[], oldname[]);
 forward OnPlayerMoneyChange(playerid, newmoney, oldmoney);
@@ -90,29 +92,19 @@ new PlayerFPSInfo[MAX_PLAYERS][FPSData];
 CleanPlayerUpdateInfo(playerid)
 {	
 	KillTimer(PlayerUpdateInfo[playerid][iB_UpdateTimer]);
-	PlayerUpdateInfo[playerid][iB_Skin] = 0;
-	PlayerUpdateInfo[playerid][iB_Gender] = SKIN_GENDER_NONE;
-	PlayerUpdateInfo[playerid][iB_Name] = EOS;
-	PlayerUpdateInfo[playerid][iB_Money] = 0;
-	PlayerUpdateInfo[playerid][iB_WantedLevel] = 0;
-	PlayerUpdateInfo[playerid][iB_Score] = 0;
-	PlayerUpdateInfo[playerid][iB_Weapon] = EOS;
-	PlayerUpdateInfo[playerid][iB_Ammo] = EOS;
-	PlayerUpdateInfo[playerid][iB_CurrentWeapon] = 0;
-	PlayerUpdateInfo[playerid][iB_Vehicle] = 0;
-	PlayerUpdateInfo[playerid][iB_Seat] = -1;
-	PlayerUpdateInfo[playerid][iB_Health] = 100.0;
-	PlayerUpdateInfo[playerid][iB_Armour] = 0.0;
-	PlayerUpdateInfo[playerid][iB_World] = 0;
-	PlayerUpdateInfo[playerid][iB_Ping] = 0;
-	PlayerUpdateInfo[playerid][iB_FPS] = 0;
-	PlayerUpdateInfo[playerid][iB_DrunkLevel] = 0;
-	PlayerUpdateInfo[playerid][iB_Freezed] = false;
+
+	new it;
+
+	for(it = 0; UpdateData:it != UpdateData; ++it)
+		PlayerUpdateInfo[playerid][UpdateData:it] = 0;
+
+	for(it = 0; FPSData:it != FPSData; ++it)
+		PlayerFPSInfo[playerid][FPSData:it] = 0;
+	
+
 	PlayerUpdateInfo[playerid][iB_Team] = 255;
-	PlayerFPSInfo[playerid][iB_PlayerFPS] = 0;
-	PlayerFPSInfo[playerid][iB_LastPlayerDrunkLevel] = 0;
-	PlayerFPSInfo[playerid][iB_NewPlayerDrunkLevel] = 0;
-	PlayerUpdateInfo[playerid][iB_IsAiming] = false;
+	PlayerUpdateInfo[playerid][iB_Name] = EOS;
+	PlayerUpdateInfo[playerid][iB_Health] = 100.0;
 	return 1;
 }
 
@@ -182,6 +174,7 @@ forward iBranch_OnPlayerUpdate(playerid);
 public iBranch_OnPlayerUpdate(playerid)
 {
 	if(!IsPlayerConnected(playerid)) return CleanPlayerUpdateInfo(playerid);
+	
 	new upd_skin = GetPlayerSkin(playerid),
 	upd_name[MAX_PLAYER_NAME],
 	upd_money = GetPlayerMoney(playerid),
