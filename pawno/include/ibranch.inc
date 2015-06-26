@@ -23,6 +23,7 @@ forward OnPlayerDrunkLevelChange(playerid, newlevel, oldlevel);
 forward OnPlayerFreezeStateChange(playerid, newstate, oldstate);
 forward OnPlayerTeamChange(playerid, newteam, oldteam);
 forward OnPlayerGenderChange(playerid, newgender, oldgender);
+forward OnPlayerAimStateChange(playerid, weaponid, mode);
 
 #if !defined strcpy
 	#define strcpy(%0,%1) strcat((%0[0] = '\0', %0), %1)
@@ -32,9 +33,24 @@ forward OnPlayerGenderChange(playerid, newgender, oldgender);
     #define isnull(%1) ((!(%1[0])) || (((%1[0]) == '\1') && (!(%1[1]))))
 #endif
 
+#if !defined PRESSED
+	#define PRESSED(%0) \
+		(((newkeys & (%0)) == (%0)) && ((oldkeys & (%0)) != (%0)))
+#endif
+
+#if !defined RELEASED
+	#define RELEASED(%0) \
+		(((newkeys & (%0)) != (%0)) && ((oldkeys & (%0)) == (%0)))
+#endif
+	
+#define KEY_AIM KEY_HANDBRAKE
+
 #define SKIN_GENDER_NONE 0
 #define SKIN_GENDER_FEMALE 1
 #define SKIN_GENDER_MALE 2
+
+#define AIM_MODE_RELEASE	 0
+#define AIM_MODE_HOLD	 1
 
 
 enum UpdateData
@@ -58,6 +74,7 @@ enum UpdateData
 	iB_DrunkLevel,
 	bool:iB_Freezed,
 	iB_Team,
+	bool:iB_IsAiming,
 	iB_UpdateTimer
 }
 new PlayerUpdateInfo[MAX_PLAYERS][UpdateData];
@@ -95,6 +112,7 @@ CleanPlayerUpdateInfo(playerid)
 	PlayerFPSInfo[playerid][iB_PlayerFPS] = 0;
 	PlayerFPSInfo[playerid][iB_LastPlayerDrunkLevel] = 0;
 	PlayerFPSInfo[playerid][iB_NewPlayerDrunkLevel] = 0;
+	PlayerUpdateInfo[playerid][iB_IsAiming] = false;
 	return 1;
 }
 
@@ -116,6 +134,45 @@ public OnPlayerConnect(playerid)
 
 #if defined iBranch_OnPlayerConnect
     forward iBranch_OnPlayerConnect(playerid);
+#endif
+
+public OnPlayerKeyStateChange(playerid, newkeys, oldkeys)
+{
+	#if defined iBranch_OnPlayerKeyStateChange
+        iBranch_OnPlayerKeyStateChange(playerid, newkeys, oldkeys);
+    #endif	
+	
+	new weapon = GetPlayerWeapon(playerid);
+	if(RELEASED(KEY_AIM) && PlayerUpdateInfo[playerid][iB_IsAiming])
+	{
+		OnPlayerAimStateChange(playerid, weapon, AIM_MODE_RELEASE);
+		PlayerUpdateInfo[playerid][iB_IsAiming] = false;
+		return 1;
+	}
+	if(PRESSED(KEY_AIM) && !PlayerUpdateInfo[playerid][iB_IsAiming] && !IsPlayerInAnyVehicle(playerid))//detect if player is holding aim
+	{			
+		switch(weapon)
+		{
+			case 22..34, 38:
+			{	
+				OnPlayerAimStateChange(playerid, weapon, AIM_MODE_HOLD);			
+				PlayerUpdateInfo[playerid][iB_IsAiming] = true;
+				return 1;
+			}
+		}
+		return 1;
+	}
+	return 1;
+}
+#if defined _ALS_OnPlayerKeyStateChange
+    #undef OnPlayerKeyStateChange
+#else
+    #define _ALS_OnPlayerKeyStateChange
+#endif
+#define OnPlayerKeyStateChange iBranch_OnPlayerKeyStateChange
+
+#if defined iBranch_OnPlayerKeyStateChange
+    forward iBranch_OnPlayerKeyStateChange(playerid, newkeys, oldkeys);
 #endif
 
 
@@ -293,8 +350,6 @@ stock iB_GetSkinGender(skinid)
 #else
     #define _ALS_TogglePlayerControllable
 #endif
-<<<<<<< HEAD
+
 #define TogglePlayerControllable iB_TogglePlayerControllable
-=======
-#define TogglePlayerControllable iB_TogglePlayerControllable
->>>>>>> origin/master
+
