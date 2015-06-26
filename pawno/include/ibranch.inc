@@ -145,7 +145,9 @@ public OnPlayerKeyStateChange(playerid, newkeys, oldkeys)
 	new weapon = GetPlayerWeapon(playerid);
 	if(RELEASED(KEY_AIM) && PlayerUpdateInfo[playerid][iB_IsAiming])
 	{
-		OnPlayerAimStateChange(playerid, weapon, AIM_MODE_RELEASE);
+		#if defined OnPlayerAimStateChange
+			OnPlayerAimStateChange(playerid, weapon, AIM_MODE_RELEASE);
+		#endif
 		PlayerUpdateInfo[playerid][iB_IsAiming] = false;
 		return 1;
 	}
