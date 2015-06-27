@@ -4,40 +4,78 @@
 ** Thanks to Y_Less for ALS Hook method 7
 */
 
-forward OnPlayerSkinChange(playerid, newskin, oldskin);
-forward OnPlayerNameChange(playerid, newname[], oldname[]);
-forward OnPlayerMoneyChange(playerid, newmoney, oldmoney);
-forward OnPlayerWantedLevelChange(playerid, newlevel, oldlevel);
-forward OnPlayerScoreChange(playerid, newscore, oldscore);
-forward OnPlayerWeaponSlotChange(playerid, slotid, new_weapon, oldweapon);
-forward OnPlayerAmmoChange(playerid, weaponid, newammo, oldammo);
-forward OnPlayerCurrentWeaponChange(playerid, new_weapon, oldweapon);
-forward OnPlayerVehicleChange(playerid, new_vehicle, oldvehicle);
-forward OnPlayerVehicleSeatChange(playerid, newseat, oldseat);
-forward OnPlayerHealthChange(playerid, Float:newhealth, Float:oldhealth);
-forward OnPlayerArmourChange(playerid, Float:newarmour, Float:oldarmour);
-forward OnPlayerVirtualWorldChange(playerid, new_world, oldworld);
-forward OnPlayerPingChange(playerid, newping, oldping);
-forward OnPlayerFPSChange(playerid, newfps, oldfps);
-forward OnPlayerDrunkLevelChange(playerid, newlevel, oldlevel);
-forward OnPlayerFreezeStateChange(playerid, newstate, oldstate);
-forward OnPlayerTeamChange(playerid, newteam, oldteam);
-forward OnPlayerGenderChange(playerid, newgender, oldgender);
-forward OnPlayerAimStateChange(playerid, weaponid, mode);
-
+#if defined OnPlayerSkinChange
+	forward OnPlayerSkinChange(playerid, newskin, oldskin);
+#endif
+#if defined OnPlayerNameChange
+	forward OnPlayerNameChange(playerid, newname[], oldname[]);
+#endif
+#if defined OnPlayerMoneyChange
+	forward OnPlayerMoneyChange(playerid, newmoney, oldmoney);
+#endif
+#if defined OnPlayerWantedLevelChange
+	forward OnPlayerWantedLevelChange(playerid, newlevel, oldlevel);
+#endif
+#if defined OnPlayerScoreChange
+	forward OnPlayerScoreChange(playerid, newscore, oldscore);
+#endif
+#if defined OnPlayerWeaponSlotChange
+	forward OnPlayerWeaponSlotChange(playerid, slotid, new_weapon, oldweapon);
+#endif
+#if defined OnPlayerAmmoChange
+	forward OnPlayerAmmoChange(playerid, weaponid, newammo, oldammo);
+#endif
+#if defined OnPlayerCurrentWeaponChange
+	forward OnPlayerCurrentWeaponChange(playerid, new_weapon, oldweapon);
+#endif
+#if defined OnPlayerVehicleChange
+	forward OnPlayerVehicleChange(playerid, new_vehicle, oldvehicle);
+#endif
+#if defined OnPlayerVehicleSeatChange
+	forward OnPlayerVehicleSeatChange(playerid, newseat, oldseat);
+#endif
+#if defined OnPlayerHealthChange
+	forward OnPlayerHealthChange(playerid, Float:newhealth, Float:oldhealth);
+#endif
+#if defined OnPlayerArmourChange
+	forward OnPlayerArmourChange(playerid, Float:newarmour, Float:oldarmour);
+#endif
+#if defined OnPlayerVirtualWorldChange
+	forward OnPlayerVirtualWorldChange(playerid, new_world, oldworld);
+#endif
+#if defined OnPlayerPingChange
+	forward OnPlayerPingChange(playerid, newping, oldping);
+#endif
+#if defined OnPlayerFPSChange
+	forward OnPlayerFPSChange(playerid, newfps, oldfps);
+#endif
+#if defined OnPlayerDrunkLevelChange
+	forward OnPlayerDrunkLevelChange(playerid, newlevel, oldlevel);
+#endif
+#if defined OnPlayerFreezeStateChange
+	forward OnPlayerFreezeStateChange(playerid, newstate, oldstate);
+#endif
+#if defined OnPlayerTeamChange
+	forward OnPlayerTeamChange(playerid, newteam, oldteam);
+#endif
+#if defined OnPlayerGenderChange
+	forward OnPlayerGenderChange(playerid, newgender, oldgender);
+#endif
+#if defined OnPlayerAimStateChange
+	forward OnPlayerAimStateChange(playerid, weaponid, mode);
+#endif
 #if !defined strcpy
 	#define strcpy(%0,%1) strcat((%0[0] = '\0', %0), %1)
 #endif
-
 #if !defined isnull
     #define isnull(%1) ((!(%1[0])) || (((%1[0]) == '\1') && (!(%1[1]))))
 #endif
+
 
 #if !defined PRESSED
 	#define PRESSED(%0) \
 		(((newkeys & (%0)) == (%0)) && ((oldkeys & (%0)) != (%0)))
 #endif
-
 #if !defined RELEASED
 	#define RELEASED(%0) \
 		(((newkeys & (%0)) != (%0)) && ((oldkeys & (%0)) == (%0)))
@@ -181,132 +219,201 @@ public OnPlayerKeyStateChange(playerid, newkeys, oldkeys)
 forward iBranch_OnPlayerUpdate(playerid);
 public iBranch_OnPlayerUpdate(playerid)
 {
-	if(!IsPlayerConnected(playerid)) return CleanPlayerUpdateInfo(playerid);
-	new upd_skin = GetPlayerSkin(playerid),
-	upd_name[MAX_PLAYER_NAME],
-	upd_money = GetPlayerMoney(playerid),
-	upd_wantedlevel = GetPlayerWantedLevel(playerid),
-	upd_score = GetPlayerScore(playerid),
-	upd_weapon[13],
-	upd_ammo[13],
-	upd_currentweapon = GetPlayerWeapon(playerid),
-	upd_vehicle = GetPlayerVehicleID(playerid),
-	upd_seat = GetPlayerVehicleSeat(playerid),
-	Float:upd_health,
-	Float:upd_armour,
-	upd_world = GetPlayerVirtualWorld(playerid),
-	upd_ping = GetPlayerPing(playerid),
-	upd_fps = GetPlayerFPS(playerid),
-	upd_drunklevel = GetPlayerDrunkLevel(playerid),
-	upd_team = GetPlayerTeam(playerid);
-	for(new i; i < 13; i++)	GetPlayerWeaponData(playerid, i, upd_weapon[i], upd_ammo[i]);
-	GetPlayerHealth(playerid, upd_health);
-	GetPlayerArmour(playerid, upd_armour);
-	GetPlayerName(playerid, upd_name, sizeof(upd_name));	
+	if(!IsPlayerConnected(playerid)) return CleanPlayerUpdateInfo(playerid);	
+	
+	#if defined OnPlayerSkinChange
+	new upd_skin = GetPlayerSkin(playerid);
 	
 	if(upd_skin != PlayerUpdateInfo[playerid][iB_Skin])
 	{
+		#if defined OnPlayerGnederChange
 		if(iB_GetSkinGender(upd_skin) != PlayerUpdateInfo[playerid][iB_Gender])
 		{
-			CallLocalFunction("OnPlayerGenderChange", "iii", playerid, iB_GetSkinGender(upd_skin), iB_GetSkinGender(PlayerUpdateInfo[playerid][iB_Skin]));
+			OnPlayerGenderChange(playerid, iB_GetSkinGender(upd_skin), iB_GetSkinGender(PlayerUpdateInfo[playerid][iB_Skin]));
 			PlayerUpdateInfo[playerid][iB_Gender] = iB_GetSkinGender(upd_skin);
 		}
-		CallLocalFunction("OnPlayerSkinChange", "iii", playerid, upd_skin, PlayerUpdateInfo[playerid][iB_Skin]);
+		#endif
+		OnPlayerSkinChange(playerid, upd_skin, PlayerUpdateInfo[playerid][iB_Skin]);
 		PlayerUpdateInfo[playerid][iB_Skin] = upd_skin;
 	}
+	#endif
+	
+	#if defined OnPlayerNameChange
+	new upd_name[MAX_PLAYER_NAME];
+	GetPlayerName(playerid, upd_name, sizeof(upd_name));
+	
 	if(strcmp(upd_name, PlayerUpdateInfo[playerid][iB_Name]))
 	{
-		if(!isnull(upd_name) && !isnull(PlayerUpdateInfo[playerid][iB_Name])) CallLocalFunction("OnPlayerNameChange", "iss", playerid, upd_name, PlayerUpdateInfo[playerid][iB_Name]);
+		if(!isnull(upd_name) && !isnull(PlayerUpdateInfo[playerid][iB_Name])) OnPlayerNameChange(playerid, upd_name, PlayerUpdateInfo[playerid][iB_Name]);
 		strcpy(PlayerUpdateInfo[playerid][iB_Name], upd_name);
 	}
+	#endif
+	
+	#if defined OnPlayerMoneyChange
+	new upd_money = GetPlayerMoney(playerid);
+	
 	if(upd_money != PlayerUpdateInfo[playerid][iB_Money])
 	{
-		CallLocalFunction("OnPlayerMoneyChange", "iiii", playerid, upd_money, PlayerUpdateInfo[playerid][iB_Money]);
+		OnPlayerMoneyChange(playerid, upd_money, PlayerUpdateInfo[playerid][iB_Money]);
 		PlayerUpdateInfo[playerid][iB_Money] = upd_money;
 	}
+	#endif
+	
+	#if defined OnPlayerWantedLevelChange
+	new upd_wantedlevel = GetPlayerWantedLevel(playerid);
+	
 	if(upd_wantedlevel != PlayerUpdateInfo[playerid][iB_WantedLevel])
 	{
-		CallLocalFunction("OnPlayerWantedLevelChange", "iii", playerid, upd_wantedlevel, PlayerUpdateInfo[playerid][iB_WantedLevel]);
+		OnPlayerWantedLevelChange(playerid, upd_wantedlevel, PlayerUpdateInfo[playerid][iB_WantedLevel]);
 		PlayerUpdateInfo[playerid][iB_WantedLevel] = upd_wantedlevel;
 	}
+	#endif
+	
+	#if defined OnPlayerScoreChange
+	new upd_score = GetPlayerScore(playerid);
+	
 	if(upd_score != PlayerUpdateInfo[playerid][iB_Score])
 	{
-		CallLocalFunction("OnPlayerScoreChange", "idd", playerid, upd_score, PlayerUpdateInfo[playerid][iB_Score]);
+		OnPlayerScoreChange(playerid, upd_score, PlayerUpdateInfo[playerid][iB_Score]);
 		PlayerUpdateInfo[playerid][iB_Score] = upd_score;
 	}
+	#endif
+	
+	new upd_weapon[13],	upd_ammo[13];
 	for(new s; s < 13; s++)
-	{
+	{					
+		GetPlayerWeaponData(playerid, i, upd_weapon[i], upd_ammo[i]);
+		
+		#if defined OnPlayerWeaponSlotChange
 		if(upd_weapon[s] != PlayerUpdateInfo[playerid][iB_Weapon][s])
 		{
-			CallLocalFunction("OnPlayerWeaponSlotChange", "iiii", playerid, s, upd_weapon[s], PlayerUpdateInfo[playerid][iB_Weapon][s]);
+			OnPlayerWeaponSlotChange(playerid, s, upd_weapon[s], PlayerUpdateInfo[playerid][iB_Weapon][s]);
 			PlayerUpdateInfo[playerid][iB_Weapon][s] = upd_weapon[s];
 		}
+		#endif
+		
+		#if defined OnPlayerAmmoChange
 		if(upd_ammo[s] != PlayerUpdateInfo[playerid][iB_Ammo][s])
 		{
-			CallLocalFunction("OnPlayerAmmoChange", "iiii", playerid, upd_weapon[s], upd_ammo[s], PlayerUpdateInfo[playerid][iB_Ammo][s]);
+			OnPlayerAmmoChange(playerid, upd_weapon[s], upd_ammo[s], PlayerUpdateInfo[playerid][iB_Ammo][s]);
 			PlayerUpdateInfo[playerid][iB_Ammo][s] = upd_ammo[s];
 		}
+		#endif
 	}
+	
+	#if defined OnPlayerCurrentWeaponChange
+	new upd_currentweapon = GetPlayerWeapon(playerid);
+	
 	if(upd_currentweapon != PlayerUpdateInfo[playerid][iB_CurrentWeapon])
 	{
-		CallLocalFunction("OnPlayerCurrentWeaponChange", "iii", playerid, upd_currentweapon, PlayerUpdateInfo[playerid][iB_CurrentWeapon]);
+		OnPlayerCurrentWeaponChange(playerid, upd_currentweapon, PlayerUpdateInfo[playerid][iB_CurrentWeapon]);
 		PlayerUpdateInfo[playerid][iB_CurrentWeapon] = upd_currentweapon;
 	}
+	#endif
+	
+	#if defined OnPlayerVehicleChange
+	new upd_vehicle = GetPlayerVehicleID(playerid);
+	
 	if(upd_vehicle != PlayerUpdateInfo[playerid][iB_Vehicle])
 	{
 		if(upd_vehicle != 128)
 		{
-			CallLocalFunction("OnPlayerVehicleChange", "iii", playerid, upd_vehicle, PlayerUpdateInfo[playerid][iB_Vehicle]);
+			OnPlayerVehicleChange(playerid, upd_vehicle, PlayerUpdateInfo[playerid][iB_Vehicle]);
 			PlayerUpdateInfo[playerid][iB_Vehicle] =  upd_vehicle;
 		}
 	}
+	#endif
+	
+	#if defined OnPlayerVehicleSeatChange
+	new upd_seat = GetPlayerVehicleSeat(playerid);
+	
 	if(upd_seat != PlayerUpdateInfo[playerid][iB_Seat])
 	{
-		CallLocalFunction("OnPlayerVehicleSeatChange", "iii", playerid, upd_seat, PlayerUpdateInfo[playerid][iB_Seat]);
+		OnPlayerVehicleSeatChange(playerid, upd_seat, PlayerUpdateInfo[playerid][iB_Seat]);
 		PlayerUpdateInfo[playerid][iB_Seat] = upd_seat;
 	}
+	#endif
+	
+	#if defined OnPlayerHealthChange
+	new Float:upd_health;
+	GetPlayerHealth(playerid, upd_health);
+	
 	if(upd_health != PlayerUpdateInfo[playerid][iB_Health])
 	{
-		CallLocalFunction("OnPlayerHealthChange", "iff", playerid, upd_health, PlayerUpdateInfo[playerid][iB_Health]);
+		OnPlayerHealthChange(playerid, upd_health, PlayerUpdateInfo[playerid][iB_Health]);
 		PlayerUpdateInfo[playerid][iB_Health] = upd_health;
 	}
+	#endif
+	
+	#if defined OnPlayerArmourChange
+	new Float:upd_armour;
+	GetPlayerArmour(playerid, upd_armour);
+	
 	if(upd_armour != PlayerUpdateInfo[playerid][iB_Armour])
 	{
-		CallLocalFunction("OnPlayerArmourChange", "iff", playerid, upd_armour, PlayerUpdateInfo[playerid][iB_Armour]);
+		OnPlayerArmourChange(playerid, upd_armour, PlayerUpdateInfo[playerid][iB_Armour]);
 		PlayerUpdateInfo[playerid][iB_Armour] = upd_armour;
 	}
+	#endif
+	
+	#if defined OnPlayerVirtualWorldChange
+	new upd_world = GetPlayerVirtualWorld(playerid);
+	
 	if(upd_world != PlayerUpdateInfo[playerid][iB_World])
 	{
-		CallLocalFunction("OnPlayerVirtualWorldChange", "iii", playerid, upd_world, PlayerUpdateInfo[playerid][iB_World]);
+		OnPlayerVirtualWorldChange(playerid, upd_world, PlayerUpdateInfo[playerid][iB_World]);
 		PlayerUpdateInfo[playerid][iB_World] = upd_world;
 	}
+	#endif
+	
+	#if defined OnPlayerPingChange
+	new upd_ping = GetPlayerPing(playerid);
+	
 	if(upd_ping != PlayerUpdateInfo[playerid][iB_Ping])
 	{
-		CallLocalFunction("OnPlayerPingChange", "iii", playerid, upd_ping, PlayerUpdateInfo[playerid][iB_Ping]);
+		OnPlayerPingChange(playerid, upd_ping, PlayerUpdateInfo[playerid][iB_Ping]);
 		PlayerUpdateInfo[playerid][iB_Ping] = upd_ping;
 	}
+	#endif
+	
+	#if defined OnPlayerFPSChange
+	new upd_fps = GetPlayerFPS(playerid);
+	
 	if(upd_fps != PlayerUpdateInfo[playerid][iB_FPS])
 	{
-		CallLocalFunction("OnPlayerFPSChange", "iii", playerid, upd_fps, PlayerUpdateInfo[playerid][iB_FPS]);
+		OnPlayerFPSChange(playerid, upd_fps, PlayerUpdateInfo[playerid][iB_FPS]);
 		PlayerUpdateInfo[playerid][iB_FPS] = upd_fps;
 	}
+	#endif
+	
+	#if defined OnPlayerDrunkLevelChange
+	new upd_drunklevel = GetPlayerDrunkLevel(playerid);
+	
 	if(upd_drunklevel != PlayerUpdateInfo[playerid][iB_DrunkLevel])
 	{
 		if(upd_drunklevel != 2000)//ignore FPS updater
 		{		
-			CallLocalFunction("OnPlayerDrunkLevelChange", "iii", playerid, upd_drunklevel, PlayerUpdateInfo[playerid][iB_DrunkLevel]);
+			OnPlayerDrunkLevelChange(playerid, upd_drunklevel, PlayerUpdateInfo[playerid][iB_DrunkLevel]);
 			PlayerUpdateInfo[playerid][iB_DrunkLevel] = upd_drunklevel;
 		}
 	}
+	#endif
+	
+	#if defined OnPlayerTeamChange
+	new upd_team = GetPlayerTeam(playerid);
+	
 	if(upd_team != PlayerUpdateInfo[playerid][iB_Team])
 	{
-		CallLocalFunction("OnPlayerTeamChange", "iii", playerid, upd_team, PlayerUpdateInfo[playerid][iB_Team]);
+		OnPlayerTeamChange(playerid, upd_team, PlayerUpdateInfo[playerid][iB_Team]);
 		PlayerUpdateInfo[playerid][iB_Team] = upd_team;
 	}
+	#endif
 	return 1;
 }
 
-GetPlayerFPS(playerid)
+
+#if defined OnPlayerFPSChange
+iB_GetPlayerFPS(playerid)
 {
 	PlayerFPSInfo[playerid][iB_LastPlayerDrunkLevel] =  GetPlayerDrunkLevel(playerid);
 	if(PlayerFPSInfo[playerid][iB_LastPlayerDrunkLevel] < 100)
@@ -327,15 +434,11 @@ GetPlayerFPS(playerid)
 	}
 	return 0;
 }
+#endif
 
-stock iB_TogglePlayerControllable(playerid, toggle)
-{
-    CallRemoteFunction("OnPlayerFreezeStateChange", "iii", playerid, toggle, PlayerUpdateInfo[playerid][iB_Freezed]); 
-    TogglePlayerControllable(playerid, toggle);
-    return 1;
-}
 
-stock iB_GetSkinGender(skinid)
+#if defined OnPlayerGenderChange
+iB_GetSkinGender(skinid)
 {
     switch(skinid)
     {
@@ -346,12 +449,20 @@ stock iB_GetSkinGender(skinid)
     }
     return SKIN_GENDER_NONE;
 }
+#endif
 
+#if defined OnPlayerFreezeStateChange
+iB_TogglePlayerControllable(playerid, toggle)
+{
+	CallRemoteFunction("OnPlayerFreezeStateChange", "iii", playerid, toggle, PlayerUpdateInfo[playerid][iB_Freezed]); 
+	TogglePlayerControllable(playerid, toggle);
+	return 1;
+}
 #if defined _ALS_TogglePlayerControllable
-    #undef TogglePlayerControllable
+	#undef TogglePlayerControllable
 #else
-    #define _ALS_TogglePlayerControllable
+	#define _ALS_TogglePlayerControllable
 #endif
 
 #define TogglePlayerControllable iB_TogglePlayerControllable
-
+#endif
