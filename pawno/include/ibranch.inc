@@ -265,7 +265,7 @@ public OnPlayerKeyStateChange(playerid, newkeys, oldkeys)
 forward iBranch_Update();
 public iBranch_Update()
 {
-	foreach(new i : Player)
+	foreach(new playerid : Player)
 	{
 		if(!IsPlayerConnected(playerid)) return CleanPlayerUpdateInfo(playerid);	
 		
