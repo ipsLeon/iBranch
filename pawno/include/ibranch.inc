@@ -265,12 +265,12 @@ public OnPlayerKeyStateChange(playerid, newkeys, oldkeys)
 forward iBranch_Update();
 public iBranch_Update()
 {
-	foreach(new playerid : Player)
+	foreach(Player, playerid)
 	{
 		if(!IsPlayerConnected(playerid)) return CleanPlayerUpdateInfo(playerid);	
 		
 		#if defined OnPlayerSkinChange
-		static upd_skin = GetPlayerSkin(playerid);
+		new upd_skin = GetPlayerSkin(playerid);
 		
 		if(upd_skin != PlayerUpdateInfo[playerid][iB_Skin])
 		{
@@ -287,7 +287,7 @@ public iBranch_Update()
 		#endif
 		
 		#if defined OnPlayerNameChange
-		static upd_name[MAX_PLAYER_NAME];
+		new upd_name[MAX_PLAYER_NAME];
 		GetPlayerName(playerid, upd_name, sizeof(upd_name));
 		
 		if(strcmp(upd_name, PlayerUpdateInfo[playerid][iB_Name]))
@@ -298,7 +298,7 @@ public iBranch_Update()
 		#endif
 		
 		#if defined OnPlayerMoneyChange
-		static upd_money = GetPlayerMoney(playerid);
+		new upd_money = GetPlayerMoney(playerid);
 		
 		if(upd_money != PlayerUpdateInfo[playerid][iB_Money])
 		{
@@ -308,7 +308,7 @@ public iBranch_Update()
 		#endif
 		
 		#if defined OnPlayerWantedLevelChange
-		static upd_wantedlevel = GetPlayerWantedLevel(playerid);
+		new upd_wantedlevel = GetPlayerWantedLevel(playerid);
 		
 		if(upd_wantedlevel != PlayerUpdateInfo[playerid][iB_WantedLevel])
 		{
@@ -318,7 +318,7 @@ public iBranch_Update()
 		#endif
 		
 		#if defined OnPlayerScoreChange
-		static upd_score = GetPlayerScore(playerid);
+		new upd_score = GetPlayerScore(playerid);
 		
 		if(upd_score != PlayerUpdateInfo[playerid][iB_Score])
 		{
@@ -326,7 +326,7 @@ public iBranch_Update()
 			PlayerUpdateInfo[playerid][iB_Score] = upd_score;
 		}
 		#endif		
-		static upd_weapon[13],	upd_ammo[13];
+		new upd_weapon[13],	upd_ammo[13];
 		
 		for(new s; s < 13; s++)
 		{					
@@ -360,7 +360,7 @@ public iBranch_Update()
 		#endif
 		
 		#if defined OnPlayerVehicleChange
-		static upd_vehicle = GetPlayerVehicleID(playerid);
+		new upd_vehicle = GetPlayerVehicleID(playerid);
 		
 		if(upd_vehicle != PlayerUpdateInfo[playerid][iB_Vehicle])
 		{
@@ -373,7 +373,7 @@ public iBranch_Update()
 		#endif
 		
 		#if defined OnPlayerVehicleSeatChange
-		static upd_seat = GetPlayerVehicleSeat(playerid);
+		new upd_seat = GetPlayerVehicleSeat(playerid);
 		
 		if(upd_seat != PlayerUpdateInfo[playerid][iB_Seat])
 		{
@@ -383,7 +383,7 @@ public iBranch_Update()
 		#endif
 		
 		#if defined OnPlayerHealthChange
-		static Float:upd_health;
+		new Float:upd_health;
 		GetPlayerHealth(playerid, upd_health);
 		
 		if(upd_health != PlayerUpdateInfo[playerid][iB_Health])
@@ -394,7 +394,7 @@ public iBranch_Update()
 		#endif
 		
 		#if defined OnPlayerArmourChange
-		static Float:upd_armour;
+		new Float:upd_armour;
 		GetPlayerArmour(playerid, upd_armour);
 		
 		if(upd_armour != PlayerUpdateInfo[playerid][iB_Armour])
@@ -405,7 +405,7 @@ public iBranch_Update()
 		#endif
 		
 		#if defined OnPlayerVirtualWorldChange
-		static upd_world = GetPlayerVirtualWorld(playerid);
+		new upd_world = GetPlayerVirtualWorld(playerid);
 		
 		if(upd_world != PlayerUpdateInfo[playerid][iB_World])
 		{
@@ -415,7 +415,7 @@ public iBranch_Update()
 		#endif
 		
 		#if defined OnPlayerPingChange
-		static upd_ping = GetPlayerPing(playerid);
+		new upd_ping = GetPlayerPing(playerid);
 		
 		if(upd_ping != PlayerUpdateInfo[playerid][iB_Ping])
 		{
@@ -425,7 +425,7 @@ public iBranch_Update()
 		#endif
 		
 		#if defined OnPlayerFPSChange
-		static upd_fps = GetPlayerFPS(playerid);
+		new upd_fps = GetPlayerFPS(playerid);
 		
 		if(upd_fps != PlayerUpdateInfo[playerid][iB_FPS])
 		{
@@ -435,7 +435,7 @@ public iBranch_Update()
 		#endif
 		
 		#if defined OnPlayerDrunkLevelChange
-		static upd_drunklevel = GetPlayerDrunkLevel(playerid);
+		new upd_drunklevel = GetPlayerDrunkLevel(playerid);
 		
 		if(upd_drunklevel != PlayerUpdateInfo[playerid][iB_DrunkLevel])
 		{
@@ -448,7 +448,7 @@ public iBranch_Update()
 		#endif
 		
 		#if defined OnPlayerTeamChange
-		static upd_team = GetPlayerTeam(playerid);
+		new upd_team = GetPlayerTeam(playerid);
 		
 		if(upd_team != PlayerUpdateInfo[playerid][iB_Team])
 		{
