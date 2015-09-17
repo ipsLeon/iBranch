@@ -133,13 +133,13 @@ new PlayerFPSInfo[MAX_PLAYERS][FPSData];
 CleanPlayerUpdateInfo(playerid)
 {	
 	PlayerUpdateInfo[playerid][iB_Skin] = 0;
-	PlayerUpdateInfo[playerid][iB_Gender] = SKIN_GENDER_NONE;
-	PlayerUpdateInfo[playerid][iB_Name] = EOS;
+	PlayerUpdateInfo[playerid][iB_Gender] = SKIN_GENDER_NONE;	
+	format(PlayerUpdateInfo[playerid][iB_Name], MAX_PLAYER_NAME, "");
 	PlayerUpdateInfo[playerid][iB_Money] = 0;
 	PlayerUpdateInfo[playerid][iB_WantedLevel] = 0;
 	PlayerUpdateInfo[playerid][iB_Score] = 0;
-	PlayerUpdateInfo[playerid][iB_Weapon] = EOS;
-	PlayerUpdateInfo[playerid][iB_Ammo] = EOS;
+	format(PlayerUpdateInfo[playerid][iB_Weapon], 13, "");
+	format(PlayerUpdateInfo[playerid][iB_Ammo], 13, "");
 	PlayerUpdateInfo[playerid][iB_CurrentWeapon] = 0;
 	PlayerUpdateInfo[playerid][iB_Vehicle] = 0;
 	PlayerUpdateInfo[playerid][iB_Seat] = -1;
