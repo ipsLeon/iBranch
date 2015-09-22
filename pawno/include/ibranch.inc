@@ -177,6 +177,27 @@ public OnPlayerConnect(playerid)
     forward iBranch_OnPlayerConnect(playerid);
 #endif
 
+
+
+public OnPlayerDisconnect(playerid, reason)
+{
+    #if defined iBranch_OnPlayerConnect
+        iBranch_OnPlayerDisconnect(playerid, reason);
+    #endif
+	CleanPlayerUpdateInfo(playerid);
+    return 1;
+}
+#if defined _ALS_OnPlayerDisconnect
+    #undef OnPlayerDisconnect
+#else
+    #define _ALS_OnPlayerDisconnect
+#endif
+#define OnPlayerDisconnect iBranch_OnPlayerDisconnect
+
+#if defined iBranch_OnPlayerDisconnect
+    forward iBranch_OnPlayerDisconnect(playerid, reason);
+#endif
+
 /*IMPORTANT: IF YOU'RE USING THIS INCLUDE IN SOME FILTERSCRIPT, MAKE SURE THAT YOU DEFINED IT AS A FILTERSCRIPT*/
 #if defined FILTERSCRIPT
 	public OnFilterScriptInit()
