@@ -362,7 +362,7 @@ public iBranch_Update()
 			#endif
 			
 			#if defined OnPlayerAmmoChange
-			if(upd_ammo[s] != PlayerUpdateInfo[playerid][iB_Ammo][s])
+			if(upd_ammo[s] != PlayerUpdateInfo[playerid][iB_Ammo][s] && upd_weapon[s])
 			{
 				OnPlayerAmmoChange(playerid, upd_weapon[s], upd_ammo[s], PlayerUpdateInfo[playerid][iB_Ammo][s]);
 				PlayerUpdateInfo[playerid][iB_Ammo][s] = upd_ammo[s];
