@@ -206,7 +206,7 @@ public OnPlayerDisconnect(playerid, reason)
 			iBranch_OnFilterScriptInit();
 		#endif
 		
-		SetTimer("iBranch_Update", 80, true);
+		SetTimer("iBranch_Update", 80, false);
 		return 1;
 	}
 	#if defined _ALS_OnFilterScriptInit
@@ -226,7 +226,7 @@ public OnPlayerDisconnect(playerid, reason)
 			iBranch_OnGameModeInit();
 		#endif
 		
-		SetTimer("iBranch_Update", 80, true);
+		SetTimer("iBranch_Update", 80, false);
 		return 1;
 	}
 	#if defined _ALS_OnGameModeInit
@@ -478,7 +478,7 @@ public iBranch_Update()
 		}
 		#endif
 	}
-	return 1;
+	return SetTimer("iBranch_Update", 80, false);
 }
 
 
